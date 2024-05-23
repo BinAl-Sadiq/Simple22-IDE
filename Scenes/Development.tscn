@@ -1,0 +1,254 @@
+[gd_scene load_steps=11 format=3 uid="uid://cp64bonudalke"]
+
+[ext_resource type="Script" path="res://Scripts/AssemblyEditor.cs" id="1_1njd1"]
+[ext_resource type="Script" path="res://Scripts/UART.cs" id="1_eero2"]
+[ext_resource type="Script" path="res://Scripts/DataManager.cs" id="2_377bv"]
+[ext_resource type="Texture2D" uid="uid://dhpinbt02boie" path="res://icons/trash icon.png" id="4_qamex"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_liko6"]
+bg_color = Color(0.109804, 0.117647, 0.129412, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rn65j"]
+bg_color = Color(0.211765, 0.239216, 0.290196, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_41ien"]
+bg_color = Color(0.129412, 0.14902, 0.180392, 1)
+
+[sub_resource type="CodeHighlighter" id="CodeHighlighter_m7c7d"]
+number_color = Color(0.399813, 0.728409, 0.595363, 1)
+
+[sub_resource type="CodeHighlighter" id="CodeHighlighter_xvah6"]
+number_color = Color(0.399813, 0.728409, 0.595363, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_br60x"]
+bg_color = Color(0.109804, 0.117647, 0.129412, 1)
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UART" type="Node" parent="." node_paths=PackedStringArray("loadButton", "assemblyEditor", "outputConsole")]
+script = ExtResource("1_eero2")
+loadButton = NodePath("../VBoxContainer/PanelContainer/Main Strip MarginContainer/HBoxContainer/Load Button")
+assemblyEditor = NodePath("../VBoxContainer/Assembly Editor/PanelContainer/MarginContainer/PanelContainer/VSplitContainer/HSplitContainer/Assembly CodeEdit")
+outputConsole = NodePath("../VBoxContainer/Assembly Editor/PanelContainer/MarginContainer/PanelContainer/VSplitContainer/Output Console/TextEdit")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_liko6")
+
+[node name="Main Strip MarginContainer" type="MarginContainer" parent="VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer/Main Strip MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="File MenuButton" type="MenuButton" parent="VBoxContainer/PanelContainer/Main Strip MarginContainer/HBoxContainer" node_paths=PackedStringArray("assemblyEditor", "saveASFileDialog", "openFileDialog")]
+layout_mode = 2
+text = "File"
+item_count = 4
+popup/item_0/text = "Save - Ctrl + S"
+popup/item_0/id = 0
+popup/item_1/text = "Save As - Ctrl + Shift + S"
+popup/item_1/id = 3
+popup/item_2/text = "Open - Ctrl + O"
+popup/item_2/id = 1
+popup/item_3/text = "Close"
+popup/item_3/id = 2
+script = ExtResource("2_377bv")
+assemblyEditor = NodePath("../../../../Assembly Editor/PanelContainer/MarginContainer/PanelContainer/VSplitContainer/HSplitContainer/Assembly CodeEdit")
+saveASFileDialog = NodePath("../../../../../Save As FileDialog")
+openFileDialog = NodePath("../../../../../Open FileDialog")
+
+[node name="Compile Button" type="Button" parent="VBoxContainer/PanelContainer/Main Strip MarginContainer/HBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+text = "Compile"
+
+[node name="Load Button" type="Button" parent="VBoxContainer/PanelContainer/Main Strip MarginContainer/HBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+text = "Load"
+
+[node name="Help Button" type="Button" parent="VBoxContainer/PanelContainer/Main Strip MarginContainer/HBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+text = "Help"
+
+[node name="Assembly Editor" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/Assembly Editor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rn65j")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Assembly Editor/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/Assembly Editor/PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_41ien")
+
+[node name="VSplitContainer" type="VSplitContainer" parent="VBoxContainer/Assembly Editor/PanelContainer/MarginContainer/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+split_offset = 400
+
+[node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer/Assembly Editor/PanelContainer/MarginContainer/PanelContainer/VSplitContainer"]
+layout_mode = 2
+split_offset = 540
+
+[node name="Assembly CodeEdit" type="CodeEdit" parent="VBoxContainer/Assembly Editor/PanelContainer/MarginContainer/PanelContainer/VSplitContainer/HSplitContainer" node_paths=PackedStringArray("compiledCode", "outputConsole", "compileButton", "helpButton", "clearButton", "helpWindoe")]
+layout_mode = 2
+syntax_highlighter = SubResource("CodeHighlighter_m7c7d")
+gutters_draw_breakpoints_gutter = true
+gutters_draw_bookmarks = true
+gutters_draw_executing_lines = true
+gutters_draw_line_numbers = true
+gutters_draw_fold_gutter = true
+auto_brace_completion_enabled = true
+auto_brace_completion_highlight_matching = true
+script = ExtResource("1_1njd1")
+instructionsColor = Color(0.407917, 0.676691, 0.906554, 1)
+GPRsColor = Color(0.780925, 0.505203, 0.580257, 1)
+SpecialRegistorsColor = Color(0.741216, 0.538908, 0.524283, 1)
+CommentColor = Color(0.666692, 0.711551, 0.388889, 1)
+StringColor = Color(0.400922, 0.767755, 0.533129, 1)
+NewlineColor = Color(0.952941, 0.301961, 0.341176, 1)
+compiledCode = NodePath("../Compiled Code")
+outputConsole = NodePath("../../Output Console/TextEdit")
+compileButton = NodePath("../../../../../../../PanelContainer/Main Strip MarginContainer/HBoxContainer/Compile Button")
+helpButton = NodePath("../../../../../../../PanelContainer/Main Strip MarginContainer/HBoxContainer/Help Button")
+clearButton = NodePath("../../Output Console/Clear Button")
+helpWindoe = NodePath("../../../../../../../../Help Window")
+
+[node name="Compiled Code" type="CodeEdit" parent="VBoxContainer/Assembly Editor/PanelContainer/MarginContainer/PanelContainer/VSplitContainer/HSplitContainer"]
+layout_mode = 2
+editable = false
+syntax_highlighter = SubResource("CodeHighlighter_xvah6")
+gutters_draw_breakpoints_gutter = true
+gutters_draw_bookmarks = true
+gutters_draw_executing_lines = true
+gutters_draw_fold_gutter = true
+auto_brace_completion_enabled = true
+auto_brace_completion_highlight_matching = true
+
+[node name="Output Console" type="Control" parent="VBoxContainer/Assembly Editor/PanelContainer/MarginContainer/PanelContainer/VSplitContainer"]
+layout_mode = 2
+
+[node name="TextEdit" type="TextEdit" parent="VBoxContainer/Assembly Editor/PanelContainer/MarginContainer/PanelContainer/VSplitContainer/Output Console"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+editable = false
+
+[node name="Clear Button" type="Button" parent="VBoxContainer/Assembly Editor/PanelContainer/MarginContainer/PanelContainer/VSplitContainer/Output Console"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -25.0
+offset_bottom = 25.0
+grow_horizontal = 0
+focus_mode = 0
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Assembly Editor/PanelContainer/MarginContainer/PanelContainer/VSplitContainer/Output Console/Clear Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_qamex")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Save As FileDialog" type="FileDialog" parent="."]
+title = "Save As"
+initial_position = 1
+size = Vector2i(750, 340)
+access = 2
+
+[node name="Open FileDialog" type="FileDialog" parent="."]
+title = "Open a File"
+initial_position = 1
+size = Vector2i(750, 340)
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+
+[node name="Help Window" type="Window" parent="."]
+title = "Help"
+initial_position = 1
+size = Vector2i(300, 450)
+visible = false
+always_on_top = true
+popup_window = true
+
+[node name="PanelContainer" type="PanelContainer" parent="Help Window"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_br60x")
+
+[node name="MarginContainer" type="MarginContainer" parent="Help Window/PanelContainer"]
+layout_mode = 2
+
+[node name="CodeEdit" type="CodeEdit" parent="Help Window/PanelContainer/MarginContainer"]
+layout_mode = 2
+text = "add GPRn GPRn GPRn
+sub GPRn GPRn GPRn
+mul GPRn GPRn GPRn
+div GPRn GPRn GPRn
+store GPRn
+load GPRn
+set GPRn 289
+int 0//for integer at GPR0
+int 1//for character at GPR0
+log \"string\"
+special_get GPRn special_register
+special_set special_register GPRn
+exit
+//Missing Instructions
+jump 'label'
+grater_than GPRn GPRn GPRn
+less_than GPRn GPRn GPRn
+equal GPRn GPRn GPRn
+jump_if GPRn 'label'"
+editable = false
